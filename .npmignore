@@ -1,0 +1,7 @@
+*.iml
+.idea
+atlassian-ide-plugin.xml
+Gruntfile.js
+ts
+vendor
+assets

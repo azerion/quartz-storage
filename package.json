@@ -1,0 +1,35 @@
+{
+  "name": "QuartzStorage",
+  "author": "Gembly",
+  "version": "1.0.0",
+  "description": "Cross browser/platform safe localStorage implementation",
+  "contributors": [
+    {
+      "name": "Ale Bles",
+      "email": "a.bles@orangegames.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.ds.orangegames.com/quartz/storage"
+  },
+  "licenses": [
+    {
+      "type": "GPLv3",
+      "url": "https://raw.github.com/gembly/quartz-socket/master/LICENSE"
+    }
+  ],
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-watch": "0.6.x",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-typescript": "0.4.x"
+  },
+  "engines": {
+    "node": "0.10.33"
+  },
+  "publishConfig": {
+    "registry": "http://og-npm.ds.orangegames.com/"
+  }
+}
