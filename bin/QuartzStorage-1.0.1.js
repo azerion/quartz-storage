@@ -171,4 +171,4 @@ var Quartz;
     })();
     Quartz.CookieStorage = CookieStorage;
 })(Quartz || (Quartz = {}));
-//# sourceMappingURL=Storage-1.0.0.js.map
+//# sourceMappingURL=QuartzStorage-1.0.1.js.map

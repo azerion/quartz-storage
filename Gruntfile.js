@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 src: [
                     'ts/**/*.ts'
                 ],
-                dest: 'bin/Quartz/Storage-<%= pkg.version %>.js',
+                dest: 'bin/<%= pkg.name %>-<%= pkg.version %>.js',
                 options: {
                     module: 'amd',
                     target: 'es5',
@@ -30,8 +30,8 @@ module.exports = function (grunt) {
             },
             prod: {
                 files: {
-                    'bin/Quartz/Storage-<%= pkg.version %>.min.js': [
-                        'bin/Quartz/Storage-<%= pkg.version %>.js'
+                    'bin/<%= pkg.name %>-<%= pkg.version %>.min.js': [
+                        'bin/<%= pkg.name %>-<%= pkg.version %>.js'
                     ]
                 }
             }
