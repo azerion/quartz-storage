@@ -57,9 +57,12 @@ var Quartz;
                     this.store = new Quartz.LocalStorage(namespace);
                 }
                 catch (e) {
+                    this.store = new Quartz.CookieStorage(namespace);
                 }
             }
-            this.store = new Quartz.CookieStorage(namespace);
+            else {
+                this.store = new Quartz.CookieStorage(namespace);
+            }
         }
         /**
          *
@@ -171,4 +174,4 @@ var Quartz;
     })();
     Quartz.CookieStorage = CookieStorage;
 })(Quartz || (Quartz = {}));
-//# sourceMappingURL=QuartzStorage-1.0.1.js.map
+//# sourceMappingURL=QuartzStorage-1.0.2.js.map

@@ -49,10 +49,12 @@ module Quartz
                     localStorage.removeItem('testingLocalStorage');
 
                     this.store = new LocalStorage(namespace);
-                } catch (e) {}
+                } catch (e) {
+                    this.store = new CookieStorage(namespace);
+                }
+            } else {
+                this.store = new CookieStorage(namespace);
             }
-
-            this.store = new CookieStorage(namespace);
         }
 
         /**
