@@ -50,17 +50,17 @@ var Quartz;
          * @param namespace
          */
         function Storage(namespace) {
-            if (typeof localStorage === 'object') {
-                try {
+            try {
+                if (typeof localStorage === 'object') {
                     localStorage.setItem('testingLocalStorage', 'foo');
                     localStorage.removeItem('testingLocalStorage');
                     this.store = new Quartz.LocalStorage(namespace);
                 }
-                catch (e) {
+                else {
                     this.store = new Quartz.CookieStorage(namespace);
                 }
             }
-            else {
+            catch (e) {
                 this.store = new Quartz.CookieStorage(namespace);
             }
         }
@@ -109,69 +109,51 @@ var Quartz;
      * Storage driver for cookies
      */
     var CookieStorage = (function () {
-        function CookieStorage(namespace) {
+        function CookieStorage(ns) {
             this.keys = [];
             this.storage = {};
-            this.namespace = namespace + ':';
+            this._length = 0;
+            this.namespace = ns + ':';
+            this._length = document.cookie.match(/\=/g).length;
         }
         Object.defineProperty(CookieStorage.prototype, "length", {
             get: function () {
-                return this.keys.length;
+                return this._length;
             },
             enumerable: true,
             configurable: true
         });
         CookieStorage.prototype.getItem = function (key) {
-            return localStorage.getItem(this.namespace + key);
+            if (!key || !this.hasOwnProperty(key)) {
+                return null;
+            }
+            key = this.namespace + key;
+            return decodeURIComponent(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"), "$1"));
         };
         CookieStorage.prototype.setItem = function (key, value) {
             if (!key) {
                 return;
             }
-            document.cookie = encodeURI(this.namespace + key) + "=" + encodeURI(value) + "; expires=Tue, 19 Jan 2038 03:14:07 GMT; path=/";
+            key = this.namespace + key;
+            document.cookie = encodeURIComponent(key) + "=" + encodeURIComponent(value) + "; expires=Tue, 19 Jan 2038 03:14:07 GMT; path=/";
+            this._length = document.cookie.match(/\=/g).length;
         };
         CookieStorage.prototype.deleteItem = function (key) {
-            if (!key) {
+            if (!key || !this.hasOwnProperty(key)) {
                 return;
             }
-            document.cookie = encodeURI(this.namespace + key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+            key = this.namespace + key;
+            document.cookie = encodeURIComponent(key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+            this._length--;
         };
         CookieStorage.prototype.empty = function () {
-            var _this = this;
-            var keys = Object.keys(localStorage);
-            var spacedKeys = keys.filter(function (keyName) {
-                return (keyName.indexOf(_this.namespace) !== -1);
-            });
-            for (var i = 0; i < spacedKeys.length; i++) {
-                localStorage.removeItem(spacedKeys[i]);
-            }
+            //TODO
         };
         CookieStorage.prototype.fetch = function () {
-            var iThisIndx;
-            for (var sKey in this.storage) {
-                iThisIndx = this.keys.indexOf(sKey);
-                if (iThisIndx === -1) {
-                    this.setItem(sKey, this.storage[sKey]);
-                }
-                else {
-                    this.keys.splice(iThisIndx, 1);
-                }
-                delete this.storage[sKey];
-            }
-            for (this.keys; this.keys.length > 0; this.keys.splice(0, 1)) {
-                this.deleteItem(this.keys[0]);
-            }
-            for (var aCouple, iKey, nIdx = 0, aCouples = document.cookie.split(/\s*;\s*/); nIdx < aCouples.length; nIdx++) {
-                aCouple = aCouples[nIdx].split(/\s*=\s*/);
-                if (aCouple.length > 1) {
-                    this.storage[iKey = aCouple[0]] = aCouple[1];
-                    this.keys.push(iKey);
-                }
-            }
-            return this.storage;
+            //TODO
         };
         return CookieStorage;
     })();
     Quartz.CookieStorage = CookieStorage;
 })(Quartz || (Quartz = {}));
-//# sourceMappingURL=QuartzStorage-1.0.2.js.map
+//# sourceMappingURL=QuartzStorage-1.0.3.js.map

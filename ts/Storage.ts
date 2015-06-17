@@ -41,18 +41,17 @@ module Quartz
          *
          * @param namespace
          */
-        constructor(namespace: string)
+        constructor(namespace:string)
         {
-            if (typeof localStorage === 'object') {
-                try {
+            try {
+                if (typeof localStorage === 'object') {
                     localStorage.setItem('testingLocalStorage', 'foo');
                     localStorage.removeItem('testingLocalStorage');
-
                     this.store = new LocalStorage(namespace);
-                } catch (e) {
+                } else {
                     this.store = new CookieStorage(namespace);
                 }
-            } else {
+            } catch (e) {
                 this.store = new CookieStorage(namespace);
             }
         }
