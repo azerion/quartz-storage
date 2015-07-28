@@ -55,6 +55,12 @@ module Quartz
             this._length--;
         }
 
+
+        public setNamespace(namespace: string): void
+        {
+            this.namespace = namespace
+        }
+
         public empty(): void
         {
             //TODO

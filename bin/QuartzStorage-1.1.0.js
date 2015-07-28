@@ -34,6 +34,9 @@ var Quartz;
                 localStorage.removeItem(spacedKeys[i]);
             }
         };
+        LocalStorage.prototype.setNamespace = function (namespace) {
+            this.namespace = namespace;
+        };
         return LocalStorage;
     })();
     Quartz.LocalStorage = LocalStorage;
@@ -49,19 +52,19 @@ var Quartz;
          *
          * @param namespace
          */
-        function Storage(namespace) {
+        function Storage() {
             try {
                 if (typeof localStorage === 'object') {
                     localStorage.setItem('testingLocalStorage', 'foo');
                     localStorage.removeItem('testingLocalStorage');
-                    this.store = new Quartz.LocalStorage(namespace);
+                    this.store = new Quartz.LocalStorage('Quartz');
                 }
                 else {
-                    this.store = new Quartz.CookieStorage(namespace);
+                    this.store = new Quartz.CookieStorage('Quartz');
                 }
             }
             catch (e) {
-                this.store = new Quartz.CookieStorage(namespace);
+                this.store = new Quartz.CookieStorage('Quartz');
             }
         }
         /**
@@ -69,14 +72,19 @@ var Quartz;
          * @param namespace
          * @returns {Storage}
          */
-        Storage.getInstance = function (namespace) {
+        Storage.getInstance = function () {
             if (!Storage.instance) {
-                if (!namespace) {
-                    namespace = 'Quartz';
-                }
-                Storage.instance = new Storage(namespace);
+                Storage.instance = new Storage();
             }
             return Storage.instance;
+        };
+        /**
+         * Sets a namespace for the keys to be stored in
+         *
+         * @param namespace
+         */
+        Storage.prototype.setNamespace = function (namespace) {
+            this.store.setNamespace(namespace);
         };
         /**
          * Get an item from storage
@@ -146,6 +154,9 @@ var Quartz;
             document.cookie = encodeURIComponent(key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
             this._length--;
         };
+        CookieStorage.prototype.setNamespace = function (namespace) {
+            this.namespace = namespace;
+        };
         CookieStorage.prototype.empty = function () {
             //TODO
         };
@@ -156,4 +167,4 @@ var Quartz;
     })();
     Quartz.CookieStorage = CookieStorage;
 })(Quartz || (Quartz = {}));
-//# sourceMappingURL=QuartzStorage-1.0.3.js.map
+//# sourceMappingURL=QuartzStorage-1.1.0.js.map

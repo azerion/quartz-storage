@@ -10,6 +10,7 @@ declare module Quartz {
         setItem(key: string, value: any): void;
         deleteItem(key: string): void;
         empty(): void;
+        setNamespace(namespace: string): void;
     }
 }
 declare module Quartz {
@@ -23,6 +24,7 @@ declare module Quartz {
         setItem(key: string, value: any): void;
         deleteItem(key: string): void;
         empty(): void;
+        setNamespace(namespace: string): void;
     }
     /**
      * Storage manager, on construction it should decide on which driver it should use for writing data
@@ -37,13 +39,19 @@ declare module Quartz {
          *
          * @param namespace
          */
-        constructor(namespace: string);
+        constructor();
         /**
          *
          * @param namespace
          * @returns {Storage}
          */
-        static getInstance(namespace?: string): Storage;
+        static getInstance(): Storage;
+        /**
+         * Sets a namespace for the keys to be stored in
+         *
+         * @param namespace
+         */
+        setNamespace(namespace: string): void;
         /**
          * Get an item from storage
          *
@@ -75,6 +83,7 @@ declare module Quartz {
         getItem(key: string): any;
         setItem(key: string, value: any): void;
         deleteItem(key: string): void;
+        setNamespace(namespace: string): void;
         empty(): void;
         private fetch();
     }

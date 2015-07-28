@@ -44,5 +44,10 @@ module Quartz
                 localStorage.removeItem(spacedKeys[i]);
             }
         }
+
+        public setNamespace(namespace: string): void
+        {
+            this.namespace = namespace
+        }
     }
 }

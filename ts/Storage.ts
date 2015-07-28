@@ -23,6 +23,8 @@ module Quartz
 
         //empty the (namespaced) storage
         empty(): void;
+
+        setNamespace(namespace: string): void;
     }
 
     /**
@@ -41,18 +43,18 @@ module Quartz
          *
          * @param namespace
          */
-        constructor(namespace:string)
+        constructor()
         {
             try {
                 if (typeof localStorage === 'object') {
                     localStorage.setItem('testingLocalStorage', 'foo');
                     localStorage.removeItem('testingLocalStorage');
-                    this.store = new LocalStorage(namespace);
+                    this.store = new LocalStorage('Quartz');
                 } else {
-                    this.store = new CookieStorage(namespace);
+                    this.store = new CookieStorage('Quartz');
                 }
             } catch (e) {
-                this.store = new CookieStorage(namespace);
+                this.store = new CookieStorage('Quartz');
             }
         }
 
@@ -61,16 +63,23 @@ module Quartz
          * @param namespace
          * @returns {Storage}
          */
-        public static getInstance(namespace?: string)
+        public static getInstance(): Storage
         {
             if (!Storage.instance) {
-                if (!namespace) {
-                    namespace = 'Quartz';
-                }
-                Storage.instance = new Storage(namespace);
+                Storage.instance = new Storage();
             }
 
             return Storage.instance;
+        }
+
+        /**
+         * Sets a namespace for the keys to be stored in
+         *
+         * @param namespace
+         */
+        public setNamespace(namespace: string): void
+        {
+            this.store.setNamespace(namespace);
         }
 
         /**
