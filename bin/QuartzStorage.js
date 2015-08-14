@@ -1,3 +1,12 @@
+/*!
+ * QuartzStorage - version 1.1.0 
+ * Cross browser/platform safe localStorage implementation
+ *
+ * Gembly
+ * Build at 14-08-2015
+ * Released under GNUv3 License 
+ */
+
 /// <reference path="references.ts" />
 var Quartz;
 (function (Quartz) {
@@ -167,4 +176,4 @@ var Quartz;
     })();
     Quartz.CookieStorage = CookieStorage;
 })(Quartz || (Quartz = {}));
-//# sourceMappingURL=QuartzStorage-1.1.0.js.map
+//# sourceMappingURL=QuartzStorage.js.map

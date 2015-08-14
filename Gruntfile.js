@@ -3,12 +3,31 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        banner: '/*!\n' +
+                ' * <%= pkg.name %> - version <%= pkg.version %> \n' +
+                ' * <%= pkg.description %>\n' +
+                ' *\n' +
+                ' * <%= pkg.author %>\n' +
+                ' * Build at <%= grunt.template.today("dd-mm-yyyy") %>\n' +
+                ' * Released under GNUv3 License \n' +
+                ' */\n',
+        usebanner: {
+            dist: {
+                options: {
+                    position: 'top',
+                    banner: '<%= banner %>'
+                },
+                files: {
+                    src: [ 'bin/*.js' ]
+                }
+            }
+        },
         typescript: {
-            prod: {
+            dist: {
                 src: [
                     'ts/**/*.ts'
                 ],
-                dest: 'bin/<%= pkg.name %>-<%= pkg.version %>.js',
+                dest: 'bin/<%= pkg.name %>.js',
                 options: {
                     module: 'amd',
                     target: 'es5',
@@ -28,16 +47,16 @@ module.exports = function (grunt) {
                 mangle: true,
                 beautify: false
             },
-            prod: {
+            dist: {
                 files: {
-                    'bin/<%= pkg.name %>-<%= pkg.version %>.min.js': [
-                        'bin/<%= pkg.name %>-<%= pkg.version %>.js'
+                    'bin/<%= pkg.name %>.min.js': [
+                        'bin/<%= pkg.name %>.js'
                     ]
                 }
             }
         },
         clean: {
-            prod: ['bin/*']
+            dist: ['bin/*']
         }
     });
 
@@ -45,7 +64,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-typescript');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-banner');
 
-    grunt.registerTask('prod', ['clean:prod', 'typescript:prod', 'uglify:prod']);
+    grunt.registerTask('dist', ['clean', 'typescript', 'uglify', 'usebanner']);
     grunt.registerTask('dev', ['typescript:prod']);
 };
