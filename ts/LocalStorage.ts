@@ -15,7 +15,7 @@ module Quartz
 
         constructor(namespace: string)
         {
-            this.namespace = namespace + ':';
+            this.setNamespace(namespace);
         }
 
         public getItem(key: string): any
@@ -47,7 +47,7 @@ module Quartz
 
         public setNamespace(namespace: string): void
         {
-            this.namespace = namespace
+            this.namespace = namespace + ':'
         }
     }
 }

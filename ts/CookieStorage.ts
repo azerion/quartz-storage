@@ -19,7 +19,7 @@ module Quartz
 
         constructor(ns: string)
         {
-            this.namespace = ns + ':';
+            this.setNamespace(ns);
             this._length = document.cookie.match(/\=/g).length;
         }
 
@@ -58,7 +58,7 @@ module Quartz
 
         public setNamespace(namespace: string): void
         {
-            this.namespace = namespace
+            this.namespace = namespace + ':';
         }
 
         public empty(): void

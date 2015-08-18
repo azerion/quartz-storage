@@ -1,9 +1,9 @@
 /*!
- * QuartzStorage - version 1.1.0 
+ * QuartzStorage - version 1.2.0 
  * Cross browser/platform safe localStorage implementation
  *
  * Gembly
- * Build at 14-08-2015
+ * Build at 18-08-2015
  * Released under GNUv3 License 
  */
 
@@ -15,7 +15,7 @@ var Quartz;
      */
     var LocalStorage = (function () {
         function LocalStorage(namespace) {
-            this.namespace = namespace + ':';
+            this.setNamespace(namespace);
         }
         Object.defineProperty(LocalStorage.prototype, "length", {
             get: function () {
@@ -44,7 +44,7 @@ var Quartz;
             }
         };
         LocalStorage.prototype.setNamespace = function (namespace) {
-            this.namespace = namespace;
+            this.namespace = namespace + ':';
         };
         return LocalStorage;
     })();
@@ -62,6 +62,10 @@ var Quartz;
          * @param namespace
          */
         function Storage() {
+            /**
+             * property for the driver
+             */
+            this.store = null;
             try {
                 if (typeof localStorage === 'object') {
                     localStorage.setItem('testingLocalStorage', 'foo');
@@ -75,6 +79,7 @@ var Quartz;
             catch (e) {
                 this.store = new Quartz.CookieStorage('Quartz');
             }
+            return this;
         }
         /**
          *
@@ -82,10 +87,10 @@ var Quartz;
          * @returns {Storage}
          */
         Storage.getInstance = function () {
-            if (!Storage.instance) {
-                Storage.instance = new Storage();
+            if (null === Quartz.Storage.instance) {
+                Quartz.Storage.instance = new Quartz.Storage();
             }
-            return Storage.instance;
+            return Quartz.Storage.instance;
         };
         /**
          * Sets a namespace for the keys to be stored in
@@ -93,7 +98,11 @@ var Quartz;
          * @param namespace
          */
         Storage.prototype.setNamespace = function (namespace) {
+            if (null === this.store) {
+                console.error('No storage available, unable to set namespace: ' + namespace);
+            }
             this.store.setNamespace(namespace);
+            return this;
         };
         /**
          * Get an item from storage
@@ -102,6 +111,9 @@ var Quartz;
          * @returns {any}
          */
         Storage.prototype.get = function (key) {
+            if (null === this.store) {
+                console.error('No storage available, unable to get key: ' + key);
+            }
             return this.store.getItem(key);
         };
         /**
@@ -112,9 +124,13 @@ var Quartz;
          * @returns {Quartz.Storage}
          */
         Storage.prototype.set = function (key, value) {
+            if (null === this.store) {
+                console.error('No storage available, unable to set key: ' + key);
+            }
             this.store.setItem(key, value);
             return this;
         };
+        Storage.instance = null;
         return Storage;
     })();
     Quartz.Storage = Storage;
@@ -130,7 +146,7 @@ var Quartz;
             this.keys = [];
             this.storage = {};
             this._length = 0;
-            this.namespace = ns + ':';
+            this.setNamespace(ns);
             this._length = document.cookie.match(/\=/g).length;
         }
         Object.defineProperty(CookieStorage.prototype, "length", {
@@ -164,7 +180,7 @@ var Quartz;
             this._length--;
         };
         CookieStorage.prototype.setNamespace = function (namespace) {
-            this.namespace = namespace;
+            this.namespace = namespace + ':';
         };
         CookieStorage.prototype.empty = function () {
             //TODO

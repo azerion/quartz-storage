@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<body>
+    <head>
+        <script src="../bin/QuartzStorage.min.js"></script>
+        <script type="text/javascript">
+            var QS = Quartz.Storage.getInstance();
+
+            QS.setNamespace('myNameSpace');
+
+            QS.set('foo', 'bar');
+
+            function get() {
+                document.getElementById('text').innerHTML = QS.get('foo');
+            }
+        </script>
+    </head>
+    <body onload="javascript:get();">
+        <div id="text"></div>
+    </body>
+</body>

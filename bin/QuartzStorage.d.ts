@@ -51,7 +51,7 @@ declare module Quartz {
          *
          * @param namespace
          */
-        setNamespace(namespace: string): void;
+        setNamespace(namespace: string): Storage;
         /**
          * Get an item from storage
          *

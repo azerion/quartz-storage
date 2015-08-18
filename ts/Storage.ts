@@ -32,12 +32,12 @@ module Quartz
      */
     export class Storage
     {
-        private static instance: Storage
+        private static instance: Quartz.Storage = null;
 
         /**
          * property for the driver
          */
-        private store: StorageInterface;
+        private store: StorageInterface = null;
 
         /**
          *
@@ -56,6 +56,8 @@ module Quartz
             } catch (e) {
                 this.store = new CookieStorage('Quartz');
             }
+
+            return this;
         }
 
         /**
@@ -63,13 +65,13 @@ module Quartz
          * @param namespace
          * @returns {Storage}
          */
-        public static getInstance(): Storage
+        public static getInstance(): Quartz.Storage
         {
-            if (!Storage.instance) {
-                Storage.instance = new Storage();
+            if (null === Quartz.Storage.instance) {
+                Quartz.Storage.instance = new Quartz.Storage();
             }
 
-            return Storage.instance;
+            return Quartz.Storage.instance;
         }
 
         /**
@@ -77,9 +79,15 @@ module Quartz
          *
          * @param namespace
          */
-        public setNamespace(namespace: string): void
+        public setNamespace(namespace: string): Quartz.Storage
         {
+            if (null === this.store) {
+                console.error('No storage available, unable to set namespace: ' + namespace);
+            }
+
             this.store.setNamespace(namespace);
+
+            return this;
         }
 
         /**
@@ -90,6 +98,10 @@ module Quartz
          */
         public get(key: string): string
         {
+            if (null === this.store) {
+                console.error('No storage available, unable to get key: ' + key);
+            }
+
             return this.store.getItem(key);
         }
 
@@ -100,8 +112,12 @@ module Quartz
          * @param value
          * @returns {Quartz.Storage}
          */
-        public set(key: string, value: any): Storage
+        public set(key: string, value: any): Quartz.Storage
         {
+            if (null === this.store) {
+                console.error('No storage available, unable to set key: ' + key);
+            }
+
             this.store.setItem(key, value);
 
             return this;
