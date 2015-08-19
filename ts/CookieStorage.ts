@@ -8,67 +8,68 @@ module Quartz
     {
         private keys = [];
         private storage = {};
-        private _length: number = 0;
+        private reg: RegExp;
 
         get length(): number
         {
-            return this._length;
+            return (this.getNameSpaceMatches() !== null) ? this.getNameSpaceMatches().length : 0
         }
 
-        public namespace: string;
+        public namespace: string = '';
 
         constructor(ns: string)
         {
             this.setNamespace(ns);
-            this._length = document.cookie.match(/\=/g).length;
         }
 
         public getItem(key: string): any
         {
-            if (!key || !this.hasOwnProperty(key)) {
-                return null;
-            }
-
-            key = this.namespace + key;
-            return decodeURIComponent(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"), "$1"));
+            return this.getCookiesForNameSpace()[key] || null;
         }
 
         public setItem(key: string, value: any): void
         {
-            if(!key) {
-                return;
-            }
-
-            key = this.namespace + key;
-            document.cookie = encodeURIComponent(key) + "=" + encodeURIComponent(value) + "; expires=Tue, 19 Jan 2038 03:14:07 GMT; path=/";
-            this._length = document.cookie.match(/\=/g).length;
+            document.cookie = encodeURIComponent(this.namespace + key) + "=" + encodeURIComponent(value) + "; expires=Tue, 19 Jan 2038 03:14:07 GMT; path=/";
         }
 
         public deleteItem(key: string): void
         {
-            if (!key || !this.hasOwnProperty(key)) {
-                return;
-            }
-
-            key = this.namespace + key;
-            document.cookie = encodeURIComponent(key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-            this._length--;
+            document.cookie = encodeURIComponent(this.namespace + key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         }
 
 
         public setNamespace(namespace: string): void
         {
-            this.namespace = namespace + ':';
+            if (namespace) {
+                this.namespace = namespace + ':';
+                this.reg = new RegExp('^' + this.namespace + '[a-zA-Z0-9]*', 'g');
+            }
         }
 
         public empty(): void
         {
-            //TODO
+            var cookies = this.getCookiesForNameSpace();
+            for (var key in cookies) {
+                this.deleteItem(key);
+            }
         }
 
-        private fetch()
+        private getNameSpaceMatches(): string[]
         {
-            //TODO
+            var cookies = decodeURIComponent(document.cookie).split(' ');
+            return cookies.filter((val: string) => {
+                return (val.match(this.reg) !== null) ? val.match(this.reg).length > 0 : false;
+            });
+        }
+
+        private getCookiesForNameSpace()
+        {
+            var cookies = {};
+            this.getNameSpaceMatches().forEach((cookie: string) => {
+                var temp = cookie.replace(this.namespace, '').split('=');
+                cookies[temp[0]] = temp[1];
+            });
+            return cookies;
         }
     }
 }

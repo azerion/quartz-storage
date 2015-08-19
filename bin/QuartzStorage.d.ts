@@ -46,6 +46,7 @@ declare module Quartz {
          * @returns {Storage}
          */
         static getInstance(): Storage;
+        static nameSpaceKeyFilter(keys: string[], namespace: string): string[];
         /**
          * Sets a namespace for the keys to be stored in
          *
@@ -76,7 +77,7 @@ declare module Quartz {
     class CookieStorage implements StorageInterface {
         private keys;
         private storage;
-        private _length;
+        private reg;
         length: number;
         namespace: string;
         constructor(ns: string);
@@ -85,6 +86,7 @@ declare module Quartz {
         deleteItem(key: string): void;
         setNamespace(namespace: string): void;
         empty(): void;
-        private fetch();
+        private getNameSpaceMatches();
+        private getCookiesForNameSpace();
     }
 }

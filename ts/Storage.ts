@@ -74,6 +74,13 @@ module Quartz
             return Quartz.Storage.instance;
         }
 
+        public static nameSpaceKeyFilter(keys: string[], namespace: string): string[]
+        {
+            return keys.filter((keyName: string) => {
+                return (keyName.substring(0, namespace.length) === namespace);
+            });
+        }
+
         /**
          * Sets a namespace for the keys to be stored in
          *
@@ -82,7 +89,7 @@ module Quartz
         public setNamespace(namespace: string): Quartz.Storage
         {
             if (null === this.store) {
-                console.error('No storage available, unable to set namespace: ' + namespace);
+                throw new Error('No storage available, unable to set namespace: ' + namespace);
             }
 
             this.store.setNamespace(namespace);
@@ -99,7 +106,7 @@ module Quartz
         public get(key: string): string
         {
             if (null === this.store) {
-                console.error('No storage available, unable to get key: ' + key);
+                throw new Error('No storage available, unable to get key: ' + key);
             }
 
             return this.store.getItem(key);
@@ -115,7 +122,7 @@ module Quartz
         public set(key: string, value: any): Quartz.Storage
         {
             if (null === this.store) {
-                console.error('No storage available, unable to set key: ' + key);
+                throw new Error('No storage available, unable to set key: ' + key);
             }
 
             this.store.setItem(key, value);

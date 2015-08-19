@@ -1,7 +1,7 @@
 {
   "name": "QuartzStorage",
   "author": "Gembly",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Cross browser/platform safe localStorage implementation",
   "contributors": [
     {
@@ -20,15 +20,23 @@
     }
   ],
   "devDependencies": {
+    "blanket": "^1.1.7",
+    "chai": "^3.2.0",
     "grunt": "0.4.x",
     "grunt-banner": "0.5.0",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-uglify": "0.7.0",
     "grunt-contrib-watch": "0.6.x",
-    "grunt-typescript": "0.4.x"
+    "grunt-typescript": "0.4.x",
+    "mocha": "^2.2.5",
+    "mocha-phantomjs": "^3.6.0",
+    "phantomjs": "^1.9.7-15"
   },
   "engines": {
     "node": "0.10.33"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs ./tests/index.html"
   },
   "publishConfig": {
     "registry": "http://og-npm.ds.orangegames.com/"

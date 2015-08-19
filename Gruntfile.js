@@ -39,7 +39,7 @@ module.exports = function (grunt) {
         },
         watch: {
             files: ['ts/**/*.ts'],
-            tasks: ['typescript:prod']
+            tasks: ['typescript']
         },
         uglify: {
             options: {

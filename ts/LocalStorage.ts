@@ -8,10 +8,11 @@ module Quartz
     {
         get length(): number
         {
-            return localStorage.length;
+            var keys = Object.keys(localStorage);
+            return Quartz.Storage.nameSpaceKeyFilter(keys, this.namespace).length;
         }
 
-        public namespace: string;
+        public namespace: string = '';
 
         constructor(namespace: string)
         {
@@ -36,10 +37,7 @@ module Quartz
         public empty(): void
         {
             var keys = Object.keys(localStorage);
-            var spacedKeys = keys.filter((keyName: string) => {
-                return (keyName.indexOf(this.namespace) !== -1);
-            });
-
+            var spacedKeys = Quartz.Storage.nameSpaceKeyFilter(keys, this.namespace);
             for (var i = 0; i < spacedKeys.length; i++) {
                 localStorage.removeItem(spacedKeys[i]);
             }
@@ -47,7 +45,9 @@ module Quartz
 
         public setNamespace(namespace: string): void
         {
-            this.namespace = namespace + ':'
+            if (namespace) {
+                this.namespace = namespace + ':'
+            }
         }
     }
 }
