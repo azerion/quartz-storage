@@ -1,4 +1,4 @@
-Quartz Storage
+Quartz Storage [![Build Status](https://travis-ci.org/gembly/quartz-storage.svg?branch=master)](https://travis-ci.org/gembly/quartz-storage)
 ==============
 
 Quartz Storage is meant to be a simple and safe cross browser/platform storage for games.
