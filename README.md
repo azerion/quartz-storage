@@ -11,7 +11,7 @@ Storage can be namespaced so you can use same key values amonst different games/
 First you'd want to include the library in your page by doing the following:
 
 ```html
-    <script src="path/to/your/external/libs/QuartzStorage-1.1.0.min.js"></script>
+    <script src="path/to/your/external/libs/QuartzStorage.min.js"></script>
 ```
 
 #### Setup a namespace ####
