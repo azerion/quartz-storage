@@ -6,7 +6,8 @@ It makes use of localStorage when possible and falls back to cookies when localS
 
 Storage can be namespaced so you can use same key values amonst different games/pages on the same site
 
-### Getting Started ###
+Getting Started
+---------------
 
 First you'd want to include the library in your page by doing the following:
 
@@ -14,7 +15,7 @@ First you'd want to include the library in your page by doing the following:
     <script src="path/to/your/external/libs/QuartzStorage.min.js"></script>
 ```
 
-#### Setup a namespace ####
+#### Setup a namespace
 
 The storage objects in Quartz Storage are by default all grouped in a Quartz: namespace.
 If you would like a different (game specific) namespace, you can just get an instance and set the namespace.
@@ -24,7 +25,7 @@ Quartz.Storage.getInstance()
     .setNamespace('myGameName');
 ```
 
-#### Set/Get an item ####
+#### Set/Get an item
 
 Setting and getting of items is as straightforward as ever:
 
@@ -46,3 +47,10 @@ var num = s.get('number');
 s === 162; //false
 parseInt(s, 10) === 162; //true
 ```
+
+Changelog
+---------
+
+### 2.0.1
+ - Added noImplicitAny
+ - package rename to match npm's requirements

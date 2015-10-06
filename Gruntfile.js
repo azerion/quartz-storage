@@ -11,29 +11,18 @@ module.exports = function (grunt) {
                 ' * Build at <%= grunt.template.today("dd-mm-yyyy") %>\n' +
                 ' * Released under GNUv3 License \n' +
                 ' */\n',
-        usebanner: {
-            dist: {
-                options: {
-                    position: 'top',
-                    banner: '<%= banner %>'
-                },
-                files: {
-                    src: [ 'bin/*.js' ]
-                }
-            }
-        },
         typescript: {
             dist: {
                 src: [
-                    'ts/**/*.ts'
+                    'ts/*.ts'
                 ],
                 dest: 'bin/<%= pkg.name %>.js',
                 options: {
                     module: 'amd',
                     target: 'es5',
-                    basePath: 'ts',
                     sourceMap: true,
-                    declaration: true
+                    declaration: true,
+                    noImplicitAny: true
                 }
             }
         },
@@ -45,7 +34,8 @@ module.exports = function (grunt) {
             options: {
                 compress: {},
                 mangle: true,
-                beautify: false
+                beautify: false,
+                banner: '<%= banner %>'
             },
             dist: {
                 files: {
@@ -64,8 +54,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-typescript');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-banner');
 
-    grunt.registerTask('dist', ['clean', 'typescript', 'uglify', 'usebanner']);
-    grunt.registerTask('dev', ['typescript:prod']);
+    grunt.registerTask('dist', ['clean', 'typescript', 'uglify']);
+    grunt.registerTask('dev', ['typescript:dist', 'watch']);
 };

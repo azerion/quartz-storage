@@ -6,8 +6,7 @@ module Quartz
      */
     export class CookieStorage implements StorageInterface
     {
-        private keys = [];
-        private storage = {};
+        private keys: string[] = [];
         private reg: RegExp;
 
         get length(): number
@@ -22,7 +21,7 @@ module Quartz
             this.setNamespace(ns);
         }
 
-        public getItem(key: string): any
+        public getItem(key: string): string
         {
             return this.getCookiesForNameSpace()[key] || null;
         }
@@ -62,9 +61,9 @@ module Quartz
             });
         }
 
-        private getCookiesForNameSpace()
+        private getCookiesForNameSpace(): {[name: string]: string}
         {
-            var cookies = {};
+            var cookies:{[name: string]: string} = {};
             this.getNameSpaceMatches().forEach((cookie: string) => {
                 var temp = cookie.replace(this.namespace, '').split('=');
                 cookies[temp[0]] = temp[1];

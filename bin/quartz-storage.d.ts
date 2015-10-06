@@ -76,12 +76,11 @@ declare module Quartz {
      */
     class CookieStorage implements StorageInterface {
         private keys;
-        private storage;
         private reg;
         length: number;
         namespace: string;
         constructor(ns: string);
-        getItem(key: string): any;
+        getItem(key: string): string;
         setItem(key: string, value: any): void;
         deleteItem(key: string): void;
         setNamespace(namespace: string): void;
