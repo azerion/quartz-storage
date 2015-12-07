@@ -41,7 +41,7 @@
   },
   "scripts": {
     "test": "./node_modules/karma/bin/karma start ./tests/config.js --single-run",
-    "test-teamcity": "./node_modules/karma/bin/karma start ./tests/config.js --single-run --reporters teamcity"
+    "test-teamcity": "./node_modules/karma/bin/karma start ./tests/config.js --single-run --reporters teamcity,coverage"
   },
   "publishConfig": {
     "registry": "http://og-npm.ds.orangegames.com/"
