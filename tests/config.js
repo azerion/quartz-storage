@@ -68,7 +68,8 @@ module.exports = function (config) {
         concurrency: Infinity,
         coverageReporter: {
             type: 'html',
-            dir: 'coverage/'
+            dir: 'coverage',
+            subdir: '.'
         }
     })
 };
