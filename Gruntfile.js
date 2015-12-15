@@ -47,6 +47,17 @@ module.exports = function (grunt) {
         },
         clean: {
             dist: ['bin/*']
+        },
+        typedoc: {
+            dist: {
+                options: {
+                    mode: 'file',
+                    out: './docs',
+                    name: 'Quartz',
+                    target: 'es5'
+                },
+                src: ['./vendor/**/*.d.ts','./ts/**/*']
+            }
         }
     });
 
@@ -54,6 +65,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-typescript');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-typedoc');
 
     grunt.registerTask('dist', ['clean', 'typescript', 'uglify']);
     grunt.registerTask('dev', ['typescript:dist', 'watch']);
