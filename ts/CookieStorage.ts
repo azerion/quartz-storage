@@ -55,7 +55,8 @@ module Quartz
 
         private getNameSpaceMatches(): string[]
         {
-            var cookies = decodeURIComponent(document.cookie).split(' ');
+            var cookies = decodeURIComponent(document.cookie).split('; ');
+            console.log(cookies)
             return cookies.filter((val: string) => {
                 return (val.match(this.reg) !== null) ? val.match(this.reg).length > 0 : false;
             });

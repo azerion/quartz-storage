@@ -132,6 +132,9 @@ var Quartz;
     })();
     Quartz.Storage = Storage;
 })(Quartz || (Quartz = {}));
+/// <reference path="LocalStorage.ts" />
+/// <reference path="CookieStorage.ts" />
+/// <reference path="Storage.ts" /> 
 /// <reference path="references.ts" />
 var Quartz;
 (function (Quartz) {
@@ -174,7 +177,8 @@ var Quartz;
         };
         CookieStorage.prototype.getNameSpaceMatches = function () {
             var _this = this;
-            var cookies = decodeURIComponent(document.cookie).split(' ');
+            var cookies = decodeURIComponent(document.cookie).split('; ');
+            console.log(cookies);
             return cookies.filter(function (val) {
                 return (val.match(_this.reg) !== null) ? val.match(_this.reg).length > 0 : false;
             });

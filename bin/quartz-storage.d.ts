@@ -45,14 +45,14 @@ declare module Quartz {
          * @param namespace
          * @returns {Storage}
          */
-        static getInstance(): Storage;
+        static getInstance(): Quartz.Storage;
         static nameSpaceKeyFilter(keys: string[], namespace: string): string[];
         /**
          * Sets a namespace for the keys to be stored in
          *
          * @param namespace
          */
-        setNamespace(namespace: string): Storage;
+        setNamespace(namespace: string): Quartz.Storage;
         /**
          * Get an item from storage
          *
@@ -67,7 +67,7 @@ declare module Quartz {
          * @param value
          * @returns {Quartz.Storage}
          */
-        set(key: string, value: any): Storage;
+        set(key: string, value: any): Quartz.Storage;
     }
 }
 declare module Quartz {

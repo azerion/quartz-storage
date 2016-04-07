@@ -50,6 +50,8 @@ parseInt(s, 10) === 162; //true
 
 Changelog
 ---------
+### 2.0.2
+ - Fixed an issue with the CookieStorage where values would have ';' appended to them
 
 ### 2.0.1
  - Added noImplicitAny
